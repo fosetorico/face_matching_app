@@ -27,6 +27,20 @@ def generate_data_pickle_file(config_path,params_path):
     raw_local_dir_path = os.path.join(artifacts_dir, pickle_format_data_dir)
     create_directory(dirs=[raw_local_dir_path])   
 
+    pickle_file = os.path.join(raw_local_dir_path, img_pickle_file_name)
+    data_path = params['base']['data_path']
+
+    actors = os.listdir(data_path)
+    filenames = []
+    for actor in actors:
+        for file in os.listdir(os.path.join(data_path,actor)):
+            filenames.append(os.path.join(data_path,actor,file))   
+
+    logging.info(f'Total Celebrities are: {len(actors)}')
+    logging.info(f'Total Celebrity images: {len(filenames)}')
+
+    pickle.dump(filenames,open(pickle_file,'wb')) 
+
 
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
